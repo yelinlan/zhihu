@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <link rel="shortcut icon" href="/image/favicon.ico"/>
+    <meta charset="UTF-8">
+    <title>知乎热点</title>
+    <style>
+        table {
+            background-color: black;
+        }
+
+        th, td {
+            background-color: white;
+        }
+
+        .active {
+            color: red;
+        }
+
+        #mya {
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+<form method="get" th:action="@{'/page'}">  <!--th:action相当于action-->
+    文本:<input type="text" name="sc" th:value="${param.sc}">
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    每页条数
+    <select name="size">
+        <option value="">--请选择--</option>  <!--th:selected选择框持续选中,页面跳转后不会刷新值-->
+        <option value="20" th:selected="${param.size==20}">20</option>
+        <option value="50" th:selected="${param.size==50}">50</option>
+        <option value="100" th:selected="${param.size==100}">100</option>
+    </select>
+    &nbsp;&nbsp;
+    排序字段:
+    <select name="orderBy">
+        <option value="">--请选择--</option>  <!--th:selected选择框持续选中,页面跳转后不会刷新值-->
+        <option value="id" th:selected="${param.orderBy=='id'}">主键</option>
+        <option value="q_id" th:selected="${param.orderBy=='q_id'}">问题id</option>
+        <option value="a_id" th:selected="${param.orderBy=='a_id'}">回答id</option>
+        <option value="q_detail" th:selected="${param.orderBy=='q_detail'}">问题内容</option>
+        <option value="record_date" th:selected="${param.orderBy=='record_date'}">入库时间</option>
+        <option value="weight" th:selected="${param.orderBy=='weight'}">最常看</option>
+        <option value="vote_count" th:selected="${param.orderBy=='vote_count'}">投票数</option>
+    </select>
+    &nbsp;&nbsp;
+    排序:
+    <select name="asc">
+        <option value="">--请选择--</option>  <!--th:selected选择框持续选中,页面跳转后不会刷新值-->
+        <option value="false" th:selected="${param.asc==false}">降序</option>
+        <option value="true" th:selected="${param.asc==true}">升序</option>
+    </select>
+    &nbsp;&nbsp;
+    跳转到第<input type="text" name="currentPage" th:value="${param.currentPage}">页
+    &nbsp;&nbsp;
+    <input type="submit" value="查询">
+</form>
+<div>喵~~~~~</div>
+<div th:if="${pageInfo!=null}">
+    <table>
+        <thead>
+        <tr>
+            <th>问题</th>
+            <th>投票数</th>
+        </tr>
+        </thead>
+        <tbody th:each="zhihu : ${zhihuList} ">
+        <tr>
+            <td><a th:href="${zhihu.getUrl()}" th:text="${zhihu.getQDetail()}" target="_blank"></a></td>
+            <td th:text="${zhihu.getVoteCount()}">空</td>
+        </tr>
+        </tbody>
+
+        <tfoot>
+        <tr>
+            <td>
+                <div>
+                    <a th:href="@{/page(currentPage=1)}">首页</a>
+                    <a th:href="@{'/page?currentPage=' + ${i}}"
+                       th:each="i :${#numbers.sequence(pageInfo.getCurrent()-3, pageInfo.getCurrent()+3)}"
+                       th:text="${i}"
+                       id="mya" th:class="${pageInfo.getCurrent() == i? ' active' :' ' } "
+                       th:if="${i>=1 and i<=pageInfo.getPages()}"></a>
+                    <a th:href="@{/page(currentPage=${pageInfo.getPages()})}">尾页</a>
+                </div>
+            </td>
+            <td>
+                <div>
+                    <a><b th:text="'共 '+ ${pageInfo.getPages()}+ ' 页'"></b></a>
+                    <a><b th:text="'共 '+ ${pageInfo.getTotal()}+ ' 条'"></b></a>
+                </div>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+</body>
+</html>
+
