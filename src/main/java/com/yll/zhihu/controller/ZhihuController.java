@@ -2,19 +2,16 @@ package com.yll.zhihu.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yll.zhihu.domain.Zhihu;
-import com.yll.zhihu.domain.ZhihuDVo;
 import com.yll.zhihu.service.Param;
 import com.yll.zhihu.service.ZhihuService;
 import com.yll.zhihu.utils.GlobalVariable;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.List;
 
 /**
  *@项目名称: zhihu
@@ -24,24 +21,10 @@ import java.util.List;
  *@创建时间: 2023/12/6 22:21
  **/
 @Controller
+@RequiredArgsConstructor
 public class ZhihuController {
 
-	@Autowired
-	private ZhihuService zhihuService;
-
-	@GetMapping("/save")
-	public String save(Model model) {
-		List<ZhihuDVo> zhihuDVos = zhihuService.savePage();
-		model.addAttribute("zhihuList", zhihuDVos);
-		return "list";
-	}
-
-	@GetMapping("/save/{num}")
-	public String save(@PathVariable("num") int num, Model model) {
-		List<ZhihuDVo> zhihuDVos = zhihuService.savePage(num);
-		model.addAttribute("zhihuList", zhihuDVos);
-		return "list";
-	}
+	private final ZhihuService zhihuService;
 
 	@GetMapping("/forever")
 	@ResponseBody
@@ -62,7 +45,7 @@ public class ZhihuController {
 	}
 
 	@RequestMapping("/page")
-	public String findUserList(Param param, Model model) throws Exception {
+	public String findUserList(Param param, Model model) {
 		// 查询用户列表 及设置分页信息
 		Page<Zhihu> page = zhihuService.pageList(param);
 		model.addAttribute("zhihuList", page.getRecords());
@@ -77,24 +60,30 @@ public class ZhihuController {
 		return GlobalVariable.URL;
 	}
 
-	@GetMapping("/distinct")
+	@GetMapping("/vote/{num}")
 	@ResponseBody
-	public Object distinct() {
-		zhihuService.distinct();
-		return "清除重复数据";
+	public Object vote(@PathVariable Integer num) {
+		GlobalVariable.vote(num);
+		return GlobalVariable.vote();
 	}
 
-	//POST http://localhost:8080/page
-	//Content-Type: application/json
-	//
-	//{
-	//    "size": 20,
-	//    "current": 1,
-	//    "orderby": "",
-	//    "asc": false,
-	//    "sc": "",
-	//    "qid": 0,
-	//    "aid": 0
-	//}
+	@GetMapping("/vote")
+	@ResponseBody
+	public Object vote() {
+		return GlobalVariable.vote();
+	}
+
+	@GetMapping("/sleep/{num}")
+	@ResponseBody
+	public Object sleep(@PathVariable Integer num) {
+		GlobalVariable.sleep(num);
+		return GlobalVariable.sleep();
+	}
+
+	@GetMapping("/sleep")
+	@ResponseBody
+	public Object sleep() {
+		return GlobalVariable.sleep();
+	}
 
 }

@@ -4,9 +4,6 @@ package com.yll.zhihu.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yll.zhihu.domain.Zhihu;
-import com.yll.zhihu.domain.ZhihuDVo;
-
-import java.util.List;
 
 /**
  * @author 夜林蓝
@@ -15,11 +12,8 @@ import java.util.List;
  */
 public interface ZhihuService extends IService<Zhihu> {
 
-	List<ZhihuDVo> savePage();
-
-	List<ZhihuDVo> savePage(int num);
+	void savePage();
 
 	Page<Zhihu> pageList(Param param);
 
-	void distinct();
 }

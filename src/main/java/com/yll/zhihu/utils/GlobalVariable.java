@@ -16,15 +16,40 @@ import java.util.concurrent.ConcurrentHashMap;
 public class GlobalVariable {
 
 	private final Map<String, Boolean> status = new ConcurrentHashMap<>();
+	private final Map<String, Integer> intType = new ConcurrentHashMap<>();
 	public static final String RUNNING = "running";
+	public static final String VOTE_NUM = "vote";
+	public static final String SLEEP = "sleep";
 	public static String URL = "https://www.zhihu.com/api/v3/feed/topstory/recommend?action=down&ad_interval=-10&after_id=5&desktop=true&page_number=2";
 
 	static {
-		status.put(RUNNING, false);
+		status.put(RUNNING, true);
+		intType.put(VOTE_NUM, 1000);
+		intType.put(SLEEP, 1000);
 	}
 
-	public void url(String url){
+	public void url(String url) {
 		URL = url;
+	}
+
+	public void vote(Integer num) {
+		if (num != null && num > 0) {
+			intType.put(VOTE_NUM, num);
+		}
+	}
+
+	public Integer vote() {
+		return intType.get(VOTE_NUM);
+	}
+
+	public void sleep(Integer num) {
+		if (num != null && num > 0) {
+			intType.put(SLEEP, num);
+		}
+	}
+
+	public Integer sleep() {
+		return intType.get(SLEEP);
 	}
 
 	public Map<String, Boolean> start() {

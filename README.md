@@ -5,8 +5,12 @@
 ![image](https://github.com/yelinlan/zhihu/assets/38036830/f26e53e2-5d58-4633-b587-a335530f7946)
 
 #### 注意事项：
-java -jar zhihu.jar --start=true //启动监听
-http://xxxxxxx/forever //调用接口 启动循环 
-http://xxxxxxx/status //调用接口 查看是否启动循环
-http://xxxxxxx/stop //调用接口 停止循环
-http://xxxxxxx/page //调用接口 查看分页
+- java -jar zhihu.jar //启动项目
+- http://xxxxxxx/forever //调用接口 启动循环 
+- http://xxxxxxx/status //调用接口 查看是否启动循环
+- http://xxxxxxx/stop //调用接口 停止循环
+- http://xxxxxxx/page //调用接口 查看分页
+- http://xxxxxxx/vote //调用接口 查看点赞
+- http://xxxxxxx/vote/1000 //调用接口 设置点赞
+- http://xxxxxxx/sleep //调用接口 查看间隔时间
+- http://xxxxxxx/sleep/1000 //调用接口 修改间隔时间 ms
