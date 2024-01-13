@@ -13,4 +13,4 @@
 - http://xxxxxxx/vote //调用接口 查看点赞
 - http://xxxxxxx/vote/1000 //调用接口 设置点赞
 - http://xxxxxxx/sleep //调用接口 查看间隔时间
-- http://xxxxxxx/sleep/1000 //调用接口 修改间隔时间 ms
+- http://xxxxxxx/sleep/1000 //调用接口 修改间隔时间 ms  不要太小，频繁请求会不响应的！！！
